@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michael Eliaga — Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; display: flex; flex-direction: column; min-height: 100vh; }
+    .content-wrapper { flex: 1; }
+    .card { border: none; border-radius: 15px; transition: transform 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
+    .card:hover { transform: translateY(-5px); }
+    .stat-icon { font-size: 2.5rem; opacity: 0.3; position: absolute; right: 20px; bottom: 10px; }
+    .table-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .badge-active { background-color: #d1e7dd; color: #0f5132; }
+    footer { background: #212529; color: white; padding: 20px 0; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <div class="content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+          <i class="fa-solid fa-graduation-cap me-2"></i>EduFlow | Michael Eliaga
+        </a>
+        <div class="dropdown">
+          <button class="btn btn-link text-light text-decoration-none dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+            <span class="me-2 d-none d-md-inline">Welcome, <strong>Michael</strong></span>
+            <img src="https://ui-avatars.com/api/?name=Alex+Doe&background=0D6EFD&color=fff" class="rounded-circle" width="35">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <div class="row mb-4 align-items-center">
+        <div class="col">
+          <h4 class="fw-bold">Academic Overview</h4>
+          <p class="text-muted">Spring Semester 2026</p>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+            <i class="fa-solid fa-plus me-2"></i>Add Subject
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-5">
+        <div class="col-md-3">
+          <div class="card bg-primary text-white h-100">
+            <div class="card-body">
+              <h6 class="text-uppercase small fw-bold">Subjects Enrolled</h6>
+              <h2 class="display-5 fw-bold" id="subjectCount">06</h2>
+              <i class="fa-solid fa-book stat-icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-success text-white h-100">
+            <div class="card-body">
+              <h6 class="text-uppercase small fw-bold">Assignments Done</h6>
+              <h2 class="display-5 fw-bold">28</h2> <i class="fa-solid fa-check-double stat-icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-danger text-white h-100">
+            <div class="card-body">
+              <h6 class="text-uppercase small fw-bold">Pending Tasks</h6>
+              <h2 class="display-5 fw-bold">04</h2> <i class="fa-solid fa-clock stat-icon"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-warning text-dark h-100">
+            <div class="card-body">
+              <h6 class="text-uppercase small fw-bold">Attendance Rate</h6>
+              <h2 class="display-5 fw-bold">98%</h2>
+              <i class="fa-solid fa-user-check stat-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <h5 class="fw-bold mb-4">Current Schedule</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Subject</th>
+                <th>Instructor</th>
+                <th>Schedule</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="subjectTableBody">
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center">
+      <p class="mb-1 fw-bold">Michael Eliaga</p>
+      <p class="mb-0 small opacity-75">DIT-D</p>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="addSubjectModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Enroll New Subject</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addSubjectForm">
+            <div class="mb-3">
+              <label class="form-label">Subject Name</label>
+              <input type="text" id="subjName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Instructor</label>
+              <input type="text" id="subjInstructor" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Schedule</label>
+              <input type="text" id="subjSchedule" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add to Dashboard</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // 4. Initial Data with 4 additional rows (6 total)
+    let subjects = [
+      { id: 1, name: "Web Systems & Technologies", code: "CS-302", instructor: "Sheena Mae Dacula", schedule: "MWF 8:00 AM" },
+      { id: 2, name: "Database Management", code: "CS-205", instructor: "Greatchen Tabanao", schedule: "TTH 10:00 AM" },
+      { id: 3, name: "Networking 1", code: "CS-108", instructor: "Mrs. Dagpin", schedule: "MWF 1:00 PM" },
+      { id: 4, name: "Operating Systems", code: "CS-202", instructor: "Mr. Rogelio", schedule: "TTH 2:30 PM" },
+      { id: 5, name: "Data Structures", code: "CS-105", instructor: "Robert Fox", schedule: "MWF 10:30 AM" },
+      { id: 6, name: "Information Assurance", code: "CS-401", instructor: "Alice Wang", schedule: "Sat 9:00 AM" }
+    ];
+
+    const tableBody = document.getElementById('subjectTableBody');
+    const countDisplay = document.getElementById('subjectCount');
+
+    function renderTable() {
+      tableBody.innerHTML = "";
+      subjects.forEach((s) => {
+        tableBody.innerHTML += `
+          <tr>
+            <td><div class="fw-bold">${s.name}</div><small class="text-muted">${s.code}</small></td>
+            <td>${s.instructor}</td>
+            <td>${s.schedule}</td>
+            <td><span class="badge badge-active px-3 py-2 rounded-pill">Active</span></td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteSubject(${s.id})">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+      countDisplay.innerText = subjects.length.toString().padStart(2, '0');
+    }
+
+    window.deleteSubject = function(id) {
+      if(confirm("Remove this subject?")) {
+        subjects = subjects.filter(s => s.id !== id);
+        renderTable();
+      }
+    }
+
+    document.getElementById('addSubjectForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      subjects.push({
+        id: Date.now(),
+        name: document.getElementById('subjName').value,
+        instructor: document.getElementById('subjInstructor').value,
+        schedule: document.getElementById('subjSchedule').value,
+        code: "NEW-101"
+      });
+      renderTable();
+      this.reset();
+      bootstrap.Modal.getInstance(document.getElementById('addSubjectModal')).hide();
+    });
+
+    renderTable();
+  </script>
+</body>
+</html>
